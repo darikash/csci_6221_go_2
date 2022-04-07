@@ -9,14 +9,16 @@ import (
 )
 
 type Card struct {
-	Front string `json:"front"` 
-	Back  string `json:"back"`  
+	Front string `json:"front"`
+	Back  string `json:"back"`
+}
 
 type Deck struct {
 	Cards []Card //deck to hold the cards
 }
 
-var deck = []Card{} 
+var deck = []Card{}
+
 //set the cards in deck
 func setInitialDeck() {
 	card1 := Card{"Viruses", "These infect applications attaching themselves to the initialization sequence. The virus replicates itself, infecting other code in the computer system.Viruses can also attach themselves to executable code or associate themselves with a file by creating a virus file with the same name  but with an .exe extension, thus creating a decoy which carries the virus"}
@@ -31,7 +33,6 @@ func setInitialDeck() {
 
 }
 
-
 func serveMainFile(w http.ResponseWriter, r *http.Request) {
 	t, err := template.ParseFiles("main.html")
 	if err != nil {
@@ -42,33 +43,33 @@ func serveMainFile(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), 500)
 		return
 	}
-	t.Execute(w, template.JS(b)) 
+	t.Execute(w, template.JS(b))
 }
 
-func cardform(w http.ResponseWriter, r *http.Request) { 
+func cardform(w http.ResponseWriter, r *http.Request) {
 	t, _ := template.ParseFiles("add.html")
 	t.Execute(w, nil)
 }
 
 func cardadd(w http.ResponseWriter, r *http.Request) {
-	var newcard Card                             
-	newcard.Front = r.FormValue("term")            
-	newcard.Back = r.FormValue("definition")       
-	deck = append(deck, newcard)                  
-	b, err := json.MarshalIndent(deck, "", "    ") 
+	var newcard Card
+	newcard.Front = r.FormValue("term")
+	newcard.Back = r.FormValue("definition")
+	deck = append(deck, newcard)
+	b, err := json.MarshalIndent(deck, "", "    ")
 	if err != nil {
 		http.Error(w, err.Error(), 500)
 		return
 	}
-	os.Stdout.Write(b)                     
+	os.Stdout.Write(b)
 	t, _ := template.ParseFiles("add.html")
 	t.Execute(w, nil)
 }
 
-func main() { 
+func main() {
 	setInitialDeck()
-	http.HandleFunc("/", serveMainFile) 
-	http.HandleFunc("/form", cardform) 
-	http.HandleFunc("/add", cardadd)    
-	http.ListenAndServe(":8080", nil)   
+	http.HandleFunc("/", serveMainFile)
+	http.HandleFunc("/form", cardform)
+	http.HandleFunc("/add", cardadd)
+	http.ListenAndServe(":3636", nil)
 }

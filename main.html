@@ -119,6 +119,7 @@
    <hr>
   
    <div id="btn-container">
+      <input type="button" class="next round" id="cardNext" value="Previous Card" onclick="previousCard()">
       <input type="button" class="flip round" id="cardFlip" value="Flip" onclick="flipCard()">
       <input type="button" class="next round" id="cardNext" value="Next Card" onclick="nextCard()">
    </div>
@@ -172,6 +173,25 @@
             cardBack.style.display = "none";
          }
       }
+
+      function previousCard() {
+         cardIndex = (cardIndex - 1) % (deck.length);
+         cardFront.innerHTML = deck[cardIndex].front;
+         cardBack.innerHTML = deck[cardIndex].back;
+         if (pos == "back") {
+            cardFlip()
+            pos = "front"
+         }
+         if (cardFront.style.display != "block") {
+            cardFront.style.display = "none";
+            cardBack.style.display = "flex";
+         }
+         else {
+            cardFront.style.display = "block";
+            cardBack.style.display = "none";
+         }
+      }
+
    </script>
 </body>
 
