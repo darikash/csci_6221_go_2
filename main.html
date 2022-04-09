@@ -22,39 +22,34 @@
 <head>
    <title> Flashcards</title>
    <style>
-      #btn-container {
+  #buttons {
          display: flex;
          justify-content: center;
          gap: 20px;
 
-      }
+      }    
 
       input[type=button] {
          text-decoration: none;
          display: inline-block;
-         padding: 8px 16px;
+         padding: 10px 18px;
       }
 
-      input[type=button]:hover {
-         background-color: #ddd;
-         color: black;
-      }
-
-      .flip {
-         background-color: #04AA6D;
-         color: black;
+      .Definition {
+         background-color: #00000057;
+         color: rgb(255, 255, 255);
       }
 
       .next {
-         background-color: #04AA6D;
-         color: white;
+         background-color: #070000;
+         color: rgb(255, 255, 255);
       }
 
       .round {
          border-radius: 10%;
       }
 
-      #article {
+      #card {
          display: block;
          margin: 0px auto;
          border: 4px rgba(0, 255, 255, 0.03) solid;
@@ -66,29 +61,29 @@
          border-radius: 10%;
       }
 
-      #cardFront {
+      #Front {
          display: block;
          font: 30px 'Oswald', sans-serif;
          text-align: center;
          line-height: 400px;
          width: 100%;
          overflow: hidden;
-         color: #BA1F53;
+         color: #015f9e;
          background: #DDD;
          height: 100%;
          border-radius: 10%
       }
 
 
-      #cardBack {
+      #Back {
          display: none;
          font: 20px 'Oswald', sans-serif;
          text-align: center;
          width: 100%;
          align-items: center;
          transition: all 0.9s linear 0s;
-         color: rgb(1, 95, 158);
-         background: #fffeff;
+         color: #015f9e;
+         background: #DDD;
          height: 100%;
          border-radius: 10%
       }
@@ -97,7 +92,7 @@
 
 <body>
    <br>
-   <br>
+
 
    <div class="header">
       <h1>Flashcards</h1>
@@ -105,90 +100,90 @@
    </div>
 
 
+   <card id="card">
+
+     
+      <section id="Front"></section>
+
+     
+      <section id="Back"></section>
+   </card> 
  
-   <article id="article">
-
-     
-      <section id="cardFront"></section>
-
-     
-      <section id="cardBack"></section>
-   </article>
    <br>
+
    <br>
    <hr>
   
-   <div id="btn-container">
-      <input type="button" class="next round" id="cardNext" value="Previous Card" onclick="previousCard()">
-      <input type="button" class="flip round" id="cardFlip" value="Flip" onclick="flipCard()">
-      <input type="button" class="next round" id="cardNext" value="Next Card" onclick="nextCard()">
+   <div id="buttons">
+      <input type="button" class="next round" id="Next" value="Previous" onclick="previous()">
+      <input type="button" class="definition round" id="Definition" value="Definition" onclick="definition()">
+      <input type="button" class="next round" id="Next" value="Next" onclick="next()">
    </div>
-   <br>
-   <br>
+   
   
    <br>
-   <br>
+   
    <script type="text/javascript" language="javascript">
-      var pos = "front"
-      function Card(front, back) {
+      var postion = "front"
+      function FlashCard(front, back) {
          this.front = front;
          this.back = back;
       }
 
-      var cardFront = document.getElementById('cardFront');
-      var cardBack = document.getElementById('cardBack');
-      var cardIndex = 0;
-      var deck = {{.}};	
+      var Front = document.getElementById('Front');
+      var Back = document.getElementById('Back');
+      var Index = 0;
+      var holder = {{.}};	
 
-      cardFront.innerHTML = deck[cardIndex].front;
-      cardBack.innerHTML = deck[cardIndex].back;
+      Front.innerHTML = holder[Index].front;
+      Back.innerHTML = holder[Index].back;
 
-      function flipCard() {
-         if (cardFront.style.display != "none") {
-            cardFront.style.display = "none";
-            cardBack.style.display = "flex";
-            pos = "back"
+      function definition() {
+         if (Front.style.display != "none") {
+            Front.style.display = "none";
+            Back.style.display = "flex";
+            postion = "back"
          }
          else {
-            cardFront.style.display = "block";
-            cardBack.style.display = "none";
-            pos = "front"
+            Front.style.display = "block";
+            Back.style.display = "none";
+            postion = "front"
          }
       }
 
-      function nextCard() {
-         cardIndex = (cardIndex + 1) % (deck.length);
-         cardFront.innerHTML = deck[cardIndex].front;
-         cardBack.innerHTML = deck[cardIndex].back;
-         if (pos == "back") {
-            cardFlip()
-            pos = "front"
+      function next() {
+         Index = (Index + 1) % (holder.length);
+         Front.innerHTML = holder[Index].front;
+         Back.innerHTML = holder[Index].back;
+         if (postion == "back") {
+            Definition()
+            postion = "front"
          }
-         if (cardFront.style.display != "block") {
-            cardFront.style.display = "none";
-            cardBack.style.display = "flex";
+         if (Front.style.display != "block") {
+            Front.style.display = "none";
+            Back.style.display = "flex";
          }
          else {
-            cardFront.style.display = "block";
-            cardBack.style.display = "none";
+            Front.style.display = "block";
+            Back.style.display = "none";
          }
       }
 
-      function previousCard() {
-         cardIndex = (cardIndex - 1) % (deck.length);
-         cardFront.innerHTML = deck[cardIndex].front;
-         cardBack.innerHTML = deck[cardIndex].back;
-         if (pos == "back") {
-            cardFlip()
-            pos = "front"
+      function previous() {
+         Index = (Index - 1) % (holder.length);
+         Front.innerHTML = holder[Index].front;
+         Back.innerHTML = holder[Index].back;
+         if (postion == "back") {
+            Definition()
+            postion = "front"
          }
-         if (cardFront.style.display != "block") {
-            cardFront.style.display = "none";
-            cardBack.style.display = "flex";
+         if (Front.style.display != "block") {
+            Front.style.display = "none";
+            Back.style.display = "flex";
          }
          else {
-            cardFront.style.display = "block";
-            cardBack.style.display = "none";
+            Front.style.display = "block";
+            Back.style.display = "none";
          }
       }
 
