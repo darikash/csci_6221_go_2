@@ -32,7 +32,7 @@ func setInitial() {
 
 }
 
-func serveMainFile(w http.ResponseWriter, r *http.Request) {
+func mainHandler(w http.ResponseWriter, r *http.Request) {
 	t, err := template.ParseFiles("main.html")
 	if err != nil {
 		fmt.Println("There was an error:", err)
@@ -47,6 +47,6 @@ func serveMainFile(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	setInitial()
-	http.HandleFunc("/", serveMainFile)
+	http.HandleFunc("/", mainHandler)
 	http.ListenAndServe(":8080", nil)
 }
