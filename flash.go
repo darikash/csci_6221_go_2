@@ -1,6 +1,9 @@
 package main
 
 import (
+	"encoding/json"
+	"fmt"
+	"html/template"
 	"net/http"
 )
 
@@ -29,7 +32,21 @@ func setInitial() {
 
 }
 
+func serveMainFile(w http.ResponseWriter, r *http.Request) {
+	t, err := template.ParseFiles("main.html")
+	if err != nil {
+		fmt.Println("There was an error:", err)
+	}
+	b, err := json.MarshalIndent(holder, "", "    ")
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+	t.Execute(w, template.JS(b))
+}
+
 func main() {
 	setInitial()
-	http.ListenAndServe(":3636", nil)
+	http.HandleFunc("/", serveMainFile)
+	http.ListenAndServe(":8080", nil)
 }
