@@ -55,3 +55,4 @@ func main() {
     setInitial()
     http.HandleFunc("/", serveMainFile)
     http.ListenAndServe(":8080", nil)
+}
